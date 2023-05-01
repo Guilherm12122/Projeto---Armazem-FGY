@@ -33,7 +33,8 @@ class Produto(db.Model):
                 "data_validade": str(self.data_validade),
                 "qtdeKg": self.qtdeKg
                 }
-
+    
+    
 #######
 #SELECT
 #######
@@ -142,6 +143,8 @@ def response(status, nome_do_conteudo, conteudo, mensagem=False):
     
     return Response(json.dumps(body), status=status, mimetype="application/json")
 
-    
+if __name__ == '__main__':
+    app.run(host="localhost", port=5000, debug=True)
+
 
 app.run()
