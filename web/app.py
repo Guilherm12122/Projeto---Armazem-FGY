@@ -44,6 +44,11 @@ def home():
 def insert():
     return render_template("form.html")
 
+#Retorna uma página para deleção
+@app2.route('/delete')
+def delete():
+    return render_template("formDelete.html")
+
 #Retorna página com todos os corredores
 @app2.route('/selectCorredores')
 def selCorredor():
@@ -61,6 +66,9 @@ def selProdutos():
 def selProductById():
     return render_template('formId.html')
 
+@app2.route('/updateById')
+def upById():
+    return render_template('formUpdate.html')
 
 
 
@@ -89,6 +97,44 @@ def index():
 def getPById():
     produto_obj = Produto.query.filter_by(produtoId = request.form['produtoId']).first()
     return render_template('byId.html', produto_obj=produto_obj)
+
+#Deleta por Id
+@app2.route('/deleteById', methods=['POST'])
+def deleteById():
+    produto_obj = Produto.query.filter_by(produtoId = request.form['produtoId']).first()
+    try:
+        db.session.delete(produto_obj)
+        db.session.commit()
+
+        return Response("Deletado com sucesso")
+    except Exception as e:
+        print(e)
+        return Response("Erro ao deletar")
+    
+#Auxílio de atualização
+@app2.route('/update1', methods=['POST'])
+def getUpById():
+    produto_obj = Produto.query.filter_by(produtoId = request.form['produtoId']).first()
+    return render_template('formUpdate2.html', produto_obj=produto_obj)
+
+#Realiza atualização
+@app2.route('/update', methods=['POST'])
+def updateId():
+    produto_obj = Produto.query.filter_by(produtoId = request.form['produtoId']).first()
+    try:
+       produto_obj.nome_produto = request.form["nome_produto"]
+       produto_obj.corredorId = request.form["idcorredor"]
+       produto_obj.data_validade = request.form["data_validade"]
+       produto_obj.qtdeKg = request.form["qtdeKg"]
+
+       db.session.add(produto_obj)
+       db.session.commit()
+
+       return Response("Atualizado com sucesso")
+    except Exception as e:
+        print(e)
+        return Response("Erro ao atualizar")
+
 
     
 if __name__ == '__main__':
