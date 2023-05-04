@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">    
+    <title>Document</title>
+    <!-- Estilo para coluna da tabela -->
+    <style>       
+        td {
+            border: solid 1px black;
+        }
+        th {
+            border: solid 1px black;
+        }
+    </style>
+</head>
+<body>     
+    {% block content %}
+  <table>
+    <thead>
+      <tr>
+        <th>Código do Produto</th>
+        <th>Nome do Produto</th>
+        <th>Código do Corredor</th>
+        <th>Data de Validade</th>
+        <th>Quantidade em Kilos</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for obj in produtos_objs %}
+        <tr>
+          <td>{{ obj.produtoId }}</td>
+          <td>{{ obj.nome_produto }}</td>
+          <td>{{ obj.corredorId }}</td>
+          <td>{{ obj.data_validade }}</td>
+          <td>{{ obj.qtdeKg }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+</body>
+</html>
