@@ -17,6 +17,12 @@ class Corredor(db.Model):
                 "nome_do_corredor": self.nome_do_corredor
                 }
 
+class Login(db.Model):
+    usuarioId = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(50))
+    senha = db.Column(db.String(50))
+    perfil = db.Column(db.String(50))
+
 class Produto(db.Model):
     produtoId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome_produto = db.Column(db.String(256))
@@ -35,9 +41,9 @@ class Produto(db.Model):
 
 #Página inicial
 @app2.route('/')
-def home():
-    fruits = ['apple','orange', 'wine']
-    return render_template("index.html",fruits=fruits)
+def authenticator():
+    return render_template("loginAu.html")
+
 
 #Retorna uma página para cadastro
 @app2.route('/insert')
@@ -69,6 +75,30 @@ def selProductById():
 @app2.route('/updateById')
 def upById():
     return render_template('formUpdate.html')
+
+
+
+#Authenticação
+@app2.route('/home', methods=['GET','POST'])
+def home():
+  try:
+    login = request.form['txtLogin']
+    password = request.form['txtSenha']
+
+    user = Login.query.filter_by(login=login).one()
+
+
+    if(user.senha == password):   
+      if(user.perfil == 'funcionario'):
+         return render_template('index.html')
+      elif(user.perfil == 'cliente'):
+         return render_template('index2.html')
+    else:
+        return Response("Senha Incorreta!!!")
+    
+  except Exception as e:
+      print(e)
+      return render_template('error.html')
 
 
 
