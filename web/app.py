@@ -1,10 +1,14 @@
-from flask import Flask, Response, request, render_template
+from flask import Flask, Response, request, render_template, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
+import secrets
 
 
 app2 = Flask(__name__)
 app2.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app2.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:SGuizao123@localhost/armazem'
+
+secret = secrets.token_urlsafe(32)
+app2.secret_key = secret
 
 db = SQLAlchemy(app2)
 
@@ -116,7 +120,7 @@ def index():
 
     db.session.add(produto)
     db.session.commit()
-
+    
     return Response("Cadastro Realizado com Sucesso")
   except Exception as e:
         print(e)
