@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make A Short URL</title>
+    <style>       
+        td {
+            border: solid 1px black;
+        }
+        th {
+            border: solid 1px black;
+        }
+    </style>
+</head>
+<h1>Atualização de Produto</h1>
+<body>
+    {% block content %}
+  <table>
+    <thead>
+      <tr>
+        <th>Código do Produto</th>
+        <th>Nome do Produto</th>
+        <th>Código do Corredor</th>
+        <th>Data de Validade</th>
+        <th>Quantidade em Kilos</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>{{ produto_obj.produtoId }}</td>
+          <td>{{ produto_obj.nome_produto }}</td>
+          <td>{{ produto_obj.corredorId }}</td>
+          <td>{{ produto_obj.data_validade }}</td>
+          <td>{{ produto_obj.qtdeKg }}</td>
+        </tr>
+    </tbody>
+  </table>
+{% endblock %}
+
+<form action="http://127.0.0.1:5001/update" method="post">
+    <label>Código do Produto</label>
+    <input type="number" name="produtoId" value={{ produto_obj.produtoId }} required>
+    <label>Nome do Produto</label>
+    <input type="text" name="nome_produto" value="" required>
+    <label>Código do Corredor</label>
+    <input type="number" name="idcorredor" value="" required>
+    <label>Data de Validade</label>
+    <input type="date" name="data_validade" value="" required>
+    <label>Quantidade em Kilos</label>
+    <input type="number" name="qtdeKg" value="" required>
+    <input type="submit" value="Submit">
+</form>
+
+</body>
+</html>
